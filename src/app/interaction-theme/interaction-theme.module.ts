@@ -9,12 +9,13 @@ import {
   ClosePanelModule,
   LoadingPanelModule,
   MinimizedModule,
-  DataCollectionModule,
   MultimediaModule,
   QueueModule,
   CbnModule,
   InboundModule
 } from '@vivocha/client-interaction-layout';
+
+import { DataCollectionModule } from './data-collection/data-collection.module';
 
 const layoutModules = [
   TopBarModule,

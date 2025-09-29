@@ -1,0 +1,82 @@
+<div class="vvc-form">
+  <div class="form-required-legend" *ngIf="hasRequired">{{ 'STRINGS.DC.REQUIRED_LEGEND' | translate }}</div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <div *ngFor="let elem of fields">
+      <div class="vvc-input"
+           *ngIf="elem.showElement"
+           [ngClass]="{'error' : form.get(elem.id) && form.get(elem.id).errors && form.get(elem.id).touched, 'vvc-checkbox': getInputElement(elem) === 'checkbox'}">
+
+        <label *ngIf="elem.format !== 'message'">{{ (elem.labelId | translate) || elem.id }}<span *ngIf="elem.required" class="required"> *</span></label>
+
+        <!-- message -->
+        <div  class="message" *ngIf="getInputElement(elem) === 'message'" [innerHTML]="elem.message | translate | vvcSanitize:'html' "></div>
+
+        <!-- text -->
+        <input *ngIf="!readMode && getInputElement(elem) === 'input' && getInputType(elem) !== 'datetime-local'"
+               [formControlName]="elem.id"
+               type="{{ getInputType(elem) }}"
+               placeholder="{{ elem.placeholderId | translate }}" />
+
+        <!-- datetime-local -->
+        <input *ngIf="!readMode && getInputElement(elem) === 'input' && getInputType(elem) === 'datetime-local'"
+               [formControlName]="elem.id"
+               type="{{ getInputType(elem) }}"
+               placeholder="{{ elem.placeholderId | translate }}"
+               min="{{ getMinDateTime() }}"
+               step="600" />
+
+        <!-- textarea -->
+        <textarea *ngIf="!readMode && getInputElement(elem) === 'textarea'"
+                  [formControlName]="elem.id"
+                  placeholder="{{ elem.placeholderId | translate }}"></textarea>
+
+        <!-- dropdown -->
+        <select *ngIf="!readMode && getInputElement(elem) === 'select'"
+                [formControlName]="elem.id">
+          <option value="" selected></option>
+          <option *ngFor="let key of optionsKeys(elem.options)" [value]="key">{{elem.options[key] | translate}}</option>
+        </select>
+
+        <!-- checkbox -->
+        <input *ngIf="!readMode && getInputElement(elem) === 'checkbox'"
+               [formControlName]="elem.id"
+               type="checkbox" />
+
+        <!-- radio -->
+        <div *ngIf="!readMode && getInputElement(elem) === 'radio'">
+          <div *ngFor="let key of optionsKeys(elem.options)">
+            <input [formControlName]="elem.id"
+                   [value]="key"
+                   [id]="key"
+                   type="radio" />
+            <label [for]="key">{{ elem.options[key] | translate }}</label>
+          </div>
+        </div>
+
+        <!-- rating -->
+        <div *ngIf="!readMode && getInputElement(elem) === 'rating'">
+          <div>{{ elem.name | translate }}</div>
+          <div class="vvc-bar-rating {{'vvc-bar-rating-'+elem.style}}">
+            <ng-container *ngFor="let i of elem.ratings">
+              <input type="radio" id="{{elem.id}}{{i}}" [formControlName]="elem.id" [value]="i.toString()" />
+              <label for="{{elem.id}}{{i}}"></label>
+            </ng-container>
+          </div>
+        </div>
+
+        <div *ngIf="readMode">
+          {{ dc.dataValue[elem.id] || '-' }}
+        </div>
+
+        <p *ngIf="form.get(elem.id) && form.get(elem.id).touched && !readMode">
+          <span *ngIf="form.get(elem.id).hasError('required')">{{ 'STRINGS.DC.REQUIRED_ERR' | translate }}</span>
+          <span *ngIf="form.get(elem.id).hasError('email')">{{ 'STRINGS.DC.EMAIL_ERR' | translate }}</span>
+        </p>
+      </div>
+    </div>
+    <div *ngIf="!readMode">
+      <button class="btn-primary"
+              [disabled]="form.invalid">{{ 'STRINGS.NEXT_BUTTON' | translate }}</button>
+    </div>
+  </form>
+</div>

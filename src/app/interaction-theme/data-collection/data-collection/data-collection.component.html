@@ -1,0 +1,8 @@
+<div *ngIf="!showFeedback">
+<vvc-form [dc]="context.selectedDataCollection.dc"
+          [country]="context.language"
+          (submit)="submitData($event)"></vvc-form>
+</div>
+<div *ngIf="showFeedback" [innerHtml]="'STRINGS.SURVEY.FEEDBACK' | translate | vvcSanitize:'html' ">
+</div>
+
