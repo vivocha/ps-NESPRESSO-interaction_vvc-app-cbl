@@ -21,6 +21,7 @@
         <input *ngIf="!readMode && getInputElement(elem) === 'input' && getInputType(elem) === 'datetime-local'"
                [formControlName]="elem.id"
                type="{{ getInputType(elem) }}"
+               (change)="onChange($event)"
                placeholder="{{ elem.placeholderId | translate }}"
                min="{{ getMinDateTime() }}"
                step="600" />

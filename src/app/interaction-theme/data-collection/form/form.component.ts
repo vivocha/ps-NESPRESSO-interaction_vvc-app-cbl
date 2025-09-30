@@ -127,11 +127,27 @@ export class FormComponent implements OnInit {
     }
   }
 
-  getMinDateTime() {
-    const now = new Date();
-    let dateTime = now.toISOString();
+  /**
+   * Get minimum date and time based on current date and time.
+   * @returns {string} - Date and time in format `YYYY-MM-DDTHH:MM`.
+   */
+  getMinDateTime(): string {
+    const now: Date = new Date();
+    let dateTime: string = now.toISOString();
         dateTime = dateTime.substring(0, dateTime.length - 8);
     return dateTime;
+  }
+
+  /**
+   * Round up minutes to the nearest 10 when user changes the value of a `datetime-local` input.
+   * @param {Event} event - Change event from `datetime-local` input.
+   */
+  onChange(event: Event) {
+    let dateTimeValue: string = (event.target as HTMLInputElement).value;
+        dateTimeValue = dateTimeValue.substring(dateTimeValue.length - 2);
+        dateTimeValue = (Math.ceil((parseInt(dateTimeValue) + 1) / 10) * 10).toString();
+        dateTimeValue = parseInt(dateTimeValue) === 60 ? '00' : dateTimeValue;
+    (event.target as HTMLInputElement).value = (event.target as HTMLInputElement).value.substring(0, (event.target as HTMLInputElement).value.length - 2) + dateTimeValue;
   }
 
   onSubmit( event ) {
