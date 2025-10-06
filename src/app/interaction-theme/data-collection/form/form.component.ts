@@ -1,8 +1,9 @@
 import {Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-
+import { DateTime } from 'luxon';
 import {DataCollectionField, MessageMetaField} from '@vivocha/public-entities/dist/data_collection';
 import {phoneNumberValidator} from '../custom-validators/phone-validator';
+import { dateTimeValidator } from '../custom-validators/datetime-validator';
 
 @Component({
   selector: 'vvc-form',
@@ -70,6 +71,9 @@ export class FormComponent implements OnInit {
           validators.push(Validators.pattern('^\\s*\\+\\s*(?:\\d\\s*){7,}$'));
         }
       }
+      if (elem.format === 'date-time' || elem.format === 'datetime-local') {
+        validators.push(dateTimeValidator());
+      }
       if (elem.format === 'email') {
         validators.push(Validators.email);
       }
@@ -132,9 +136,9 @@ export class FormComponent implements OnInit {
    * @returns {string} - Date and time in format `YYYY-MM-DDTHH:MM`.
    */
   getMinDateTime(): string {
-    const now: Date = new Date();
-    let dateTime: string = now.toISOString();
-        dateTime = dateTime.substring(0, dateTime.length - 8);
+    const local: Date = DateTime.fromISO(new Date().toISOString(), { zone: 'Europe/Rome' });
+    let dateTime: string = local.toString();
+        dateTime = dateTime.substring(0, dateTime.length - 13);
     return dateTime;
   }
 
@@ -143,11 +147,11 @@ export class FormComponent implements OnInit {
    * @param {Event} event - Change event from `datetime-local` input.
    */
   onChange(event: Event) {
-    let dateTimeValue: string = (event.target as HTMLInputElement).value;
-        dateTimeValue = dateTimeValue.substring(dateTimeValue.length - 2);
-        dateTimeValue = (Math.ceil((parseInt(dateTimeValue) + 1) / 10) * 10).toString();
-        dateTimeValue = parseInt(dateTimeValue) === 60 ? '00' : dateTimeValue;
-    (event.target as HTMLInputElement).value = (event.target as HTMLInputElement).value.substring(0, (event.target as HTMLInputElement).value.length - 2) + dateTimeValue;
+    // let dateTimeValue: string = (event.target as HTMLInputElement).value;
+    //     dateTimeValue = dateTimeValue.substring(dateTimeValue.length - 2);
+    //     dateTimeValue = (Math.ceil((parseInt(dateTimeValue) + 1) / 10) * 10).toString();
+    //     dateTimeValue = parseInt(dateTimeValue) === 60 ? '00' : dateTimeValue;
+    // (event.target as HTMLInputElement).value = (event.target as HTMLInputElement).value.substring(0, (event.target as HTMLInputElement).value.length - 2) + dateTimeValue;
   }
 
   onSubmit( event ) {

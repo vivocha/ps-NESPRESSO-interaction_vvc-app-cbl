@@ -17,11 +17,11 @@
                type="{{ getInputType(elem) }}"
                placeholder="{{ elem.placeholderId | translate }}" />
 
-        <!-- datetime-local • TODO: @fmoretti - Add `(change)="onChange($event)"` if requested. -->
+        <!-- datetime-local -->
         <input *ngIf="!readMode && getInputElement(elem) === 'input' && getInputType(elem) === 'datetime-local'"
                [formControlName]="elem.id"
                type="{{ getInputType(elem) }}"
-              
+               (change)="onChange($event)"
                placeholder="{{ elem.placeholderId | translate }}"
                min="{{ getMinDateTime() }}"
                step="600" />
@@ -72,6 +72,7 @@
         <p *ngIf="form.get(elem.id) && form.get(elem.id).touched && !readMode">
           <span *ngIf="form.get(elem.id).hasError('required')">{{ 'STRINGS.DC.REQUIRED_ERR' | translate }}</span>
           <span *ngIf="form.get(elem.id).hasError('email')">{{ 'STRINGS.DC.EMAIL_ERR' | translate }}</span>
+          <span *ngIf="form.get(elem.id).hasError('invalidDateTime')">{{ 'STRINGS.DC.DATETIME_ERR' | translate }}</span>
         </p>
       </div>
     </div>

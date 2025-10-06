@@ -3724,6 +3724,15 @@
     }
   },
   {
+    "id": "STRINGS.DC.DATETIME_ERR",
+    "values": {
+      "it": {
+        "value": "data e ora non valide",
+        "state": "final"
+      }
+    }
+  },
+  {
     "id": "STRINGS.DC.INCOMING_HEAD",
     "values": {
       "de": {
