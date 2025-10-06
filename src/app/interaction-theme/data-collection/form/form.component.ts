@@ -136,7 +136,7 @@ export class FormComponent implements OnInit {
    * @returns {string} - Date and time in format `YYYY-MM-DDTHH:MM`.
    */
   getMinDateTime(): string {
-    const local: Date = DateTime.fromISO(new Date().toISOString(), { zone: 'Europe/Rome' });
+    const local: DateTime = DateTime.fromISO(new Date().toISOString(), { zone: 'Europe/Rome' });
     let dateTime: string = local.toString();
         dateTime = dateTime.substring(0, dateTime.length - 13);
     return dateTime;
