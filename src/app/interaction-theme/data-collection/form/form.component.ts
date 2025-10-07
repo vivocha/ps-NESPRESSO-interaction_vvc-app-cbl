@@ -18,6 +18,7 @@ export class FormComponent implements OnInit {
   fields = [];
   form: FormGroup;
   hasRequired = false;
+  minDateTime = this.getMinDateTime();
   @Input() dc;
   @Input() country;
   @Input() readMode = false;

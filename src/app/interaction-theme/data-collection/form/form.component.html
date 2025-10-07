@@ -23,7 +23,7 @@
                type="{{ getInputType(elem) }}"
                (change)="onChange($event)"
                placeholder="{{ elem.placeholderId | translate }}"
-               min="{{ getMinDateTime() }}"
+               min="{{ minDateTime }}"
                step="600" />
 
         <!-- textarea -->
