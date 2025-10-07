@@ -3726,6 +3726,10 @@
   {
     "id": "STRINGS.DC.DATETIME_ERR",
     "values": {
+      "en": {
+        "value": "invalid date and time",
+        "state": "final"
+      },
       "it": {
         "value": "data e ora non valide",
         "state": "final"
